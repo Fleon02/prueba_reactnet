@@ -1,0 +1,14 @@
+.videojuego-img {
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .videojuego-img:hover {
+    transform: scale(1.05);
+  }
+  
+  .videojuego-card {
+    border-radius: 1rem !important;
+  }
+  

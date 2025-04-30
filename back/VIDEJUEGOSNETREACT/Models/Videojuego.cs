@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using VIDEJUEGOSNETREACT.Models;
 
 public partial class Videojuego
@@ -20,10 +21,18 @@ public partial class Videojuego
     [Required(ErrorMessage = "El género es obligatorio.")]
     public int GeneroId { get; set; }
 
+
     // Columna para la carátula (imagen en formato binario)
     public byte[]? Caratula { get; set; }
 
+    public decimal Precio { get; set; }
+
+    public int Stock { get; set; }
+
     public virtual Compania Compania { get; set; } = null!;
+
+    [JsonIgnore]
+    public virtual ICollection<CompraDetalle> CompraDetalles { get; set; } = new List<CompraDetalle>();
 
     public virtual Consola Consola { get; set; } = null!;
 

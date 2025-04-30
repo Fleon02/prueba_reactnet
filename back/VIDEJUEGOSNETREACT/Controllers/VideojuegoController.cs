@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using VIDEJUEGOSNETREACT.Models;
 using Microsoft.EntityFrameworkCore;
 using VIDEJUEGOSNETREACT.DTOs;
+using System.Globalization;
 
 namespace VIDEJUEGOSNETREACT.Controllers
 {
@@ -42,6 +43,8 @@ namespace VIDEJUEGOSNETREACT.Controllers
                 CompaniaId = v.CompaniaId,
                 ConsolaId = v.ConsolaId,
                 GeneroId = v.GeneroId,
+                Precio = v.Precio,
+                Stock = v.Stock,
                 CaratulaUrl = $"{Request.Scheme}://{Request.Host}{Url.Action(nameof(ObtenerCaratula), new { id = v.VideojuegoId })}",
                 Compania = v.Compania,
                 Consola = v.Consola,
@@ -76,6 +79,8 @@ namespace VIDEJUEGOSNETREACT.Controllers
                 CompaniaId = v.CompaniaId,
                 ConsolaId = v.ConsolaId,
                 GeneroId = v.GeneroId,
+                Precio = v.Precio,
+                Stock = v.Stock,
                 CaratulaUrl = $"{Request.Scheme}://{Request.Host}{Url.Action(nameof(ObtenerCaratula), new { id = v.VideojuegoId })}",
                 Compania = v.Compania,
                 Consola = v.Consola,
@@ -90,6 +95,7 @@ namespace VIDEJUEGOSNETREACT.Controllers
         [Route("Crear")]
         public async Task<ActionResult<Videojuego>> PostVideojuego([FromForm] VideojuegoDTO dto)
         {
+            decimal precio = decimal.Parse(dto.Precio, CultureInfo.InvariantCulture);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -129,7 +135,9 @@ namespace VIDEJUEGOSNETREACT.Controllers
                 CompaniaId = dto.CompaniaId,
                 ConsolaId = dto.ConsolaId,
                 GeneroId = dto.GeneroId,
-                Caratula = caratulaBytes // Guardar la imagen como bytes
+                Caratula = caratulaBytes, // Guardar la imagen como bytes
+                Precio = precio,
+                Stock = dto.Stock
             };
 
             _videojuegosDbContext.Videojuegos.Add(videojuego);
@@ -146,6 +154,8 @@ namespace VIDEJUEGOSNETREACT.Controllers
         [Route("Actualizar/{id}")]
         public async Task<IActionResult> PutVideojuego(int id, [FromForm] VideojuegoDTO dto)
         {
+            decimal precio = decimal.Parse(dto.Precio, CultureInfo.InvariantCulture);
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -188,6 +198,8 @@ namespace VIDEJUEGOSNETREACT.Controllers
             videojuegoExistente.CompaniaId = dto.CompaniaId;
             videojuegoExistente.ConsolaId = dto.ConsolaId;
             videojuegoExistente.GeneroId = dto.GeneroId;
+            videojuegoExistente.Precio = precio;
+            videojuegoExistente.Stock = dto.Stock;
 
             await _videojuegosDbContext.SaveChangesAsync();
 
@@ -249,6 +261,8 @@ namespace VIDEJUEGOSNETREACT.Controllers
                 CompaniaId = v.CompaniaId,
                 ConsolaId = v.ConsolaId,
                 GeneroId = v.GeneroId,
+                Precio = v.Precio,
+                Stock = v.Stock,
                 CaratulaUrl = $"{Request.Scheme}://{Request.Host}{Url.Action(nameof(ObtenerCaratula), new { id = v.VideojuegoId })}",
                 Compania = v.Compania,
                 Consola = v.Consola,

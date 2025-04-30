@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom"; 
+import { useNavigate, useParams } from "react-router-dom";
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import { appSettings } from "../../settings/appsettings";
 import Swal from "sweetalert2";
@@ -20,6 +20,8 @@ export function EditarVideojuego() {
     const [generoId, setGeneroId] = useState<number | undefined>();
     const [imagen, setImagen] = useState<File | null>(null);
     const [imagenPreview, setImagenPreview] = useState<string | null>(null);
+    const [precio, setPrecio] = useState<number | undefined>();
+    const [stock, setStock] = useState<number | undefined>();
 
     const [companias, setCompanias] = useState<ICompania[]>([]);
     const [consolas, setConsolas] = useState<IConsola[]>([]);
@@ -61,6 +63,8 @@ export function EditarVideojuego() {
                 setCompaniaId(data.companiaId);
                 setConsolaId(data.consolaId);
                 setGeneroId(data.generoId);
+                setPrecio(data.precio);
+                setStock(data.stock);
                 setImagenPreview(data.caratulaUrl); // Suponiendo que la respuesta contiene la URL de la imagen
             }
         } catch (error) {
@@ -83,7 +87,7 @@ export function EditarVideojuego() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!titulo || !anioSalida || !companiaId || !consolaId || !generoId) {
+        if (!titulo || !anioSalida || !companiaId || !consolaId || !generoId || precio === undefined || stock === undefined) {
             Swal.fire({ icon: "warning", title: "Todos los campos son obligatorios" });
             return;
         }
@@ -93,19 +97,18 @@ export function EditarVideojuego() {
         formData.append("anioSalida", String(anioSalida));
         formData.append("companiaId", String(companiaId));
         formData.append("consolaId", String(consolaId));
-        formData.append("generoId", String(generoId));
+        formData.append("generoId", String(generoId));       
+        formData.append("precio", precio.toString());
+        formData.append("stock", String(stock));
 
-        console.log(imagen); // Asegúrate de que esto no sea null o undefined
+        console.log("Precio:", precio);
 
-        
         if (imagen && imagen.size > 0) {
             formData.append("caratula", imagen);
         } else {
             // Mostrar un mensaje de advertencia si la imagen es incorrecta
             Swal.fire({ icon: "warning", title: "Por favor, selecciona una imagen válida." });
         }
-        
-        
 
         try {
             const response = await fetch(appSettings.apiUrl + `Videojuego/Actualizar/${videojuegoId}`, {
@@ -116,8 +119,7 @@ export function EditarVideojuego() {
                 Swal.fire({ icon: "success", title: "Videojuego actualizado con éxito" }).then(() => {
                     navigate("/videojuegos");
                 });
-            }
-             else {
+            } else {
                 Swal.fire({ icon: "error", title: "Error al actualizar el videojuego" });
             }
         } catch (error) {
@@ -210,6 +212,31 @@ export function EditarVideojuego() {
                                     </option>
                                 ))}
                             </Input>
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label for="precio">Precio</Label>
+                            <Input
+                                type="number"
+                                name="precio"
+                                id="precio"
+                                step="0.01"
+                                value={precio ?? ""}
+                                onChange={(e) => setPrecio(parseFloat(e.target.value))}
+                                required
+                            />
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label for="stock">Stock</Label>
+                            <Input
+                                type="number"
+                                name="stock"
+                                id="stock"
+                                value={stock ?? ""}
+                                onChange={(e) => setStock(parseInt(e.target.value))}
+                                required
+                            />
                         </FormGroup>
 
                         <FormGroup>

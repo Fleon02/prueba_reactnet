@@ -11,6 +11,10 @@ public class VideojuegoRespuestaDTO
     public int ConsolaId { get; set; }
     public int GeneroId { get; set; }
 
+    public decimal Precio { get; set; }
+
+    public int Stock { get; set; }
+
     public string? CaratulaUrl { get; set; }
 
     public Compania? Compania { get; set; }

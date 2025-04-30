@@ -19,6 +19,12 @@ namespace VIDEJUEGOSNETREACT.DTOs
         [Required(ErrorMessage = "El género es obligatorio.")]
         public int GeneroId { get; set; }
 
+        [Required(ErrorMessage = "El precio es obligatorio.")]
+        public string Precio { get; set; }
+
+        [Required(ErrorMessage = "El precio es obligatorio.")]
+        public int Stock { get; set; }
+
         // Campo para la imagen (carátula)
         public IFormFile? Caratula { get; set; }
     }

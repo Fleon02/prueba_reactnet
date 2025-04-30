@@ -1,24 +1,16 @@
+import { ICompania } from "./ICompania";
+import { IConsola } from "./IConsola";
+import { IGenero } from "./IGenero";
+
 export interface IVideojuego {
-    videojuegoId?: number;
+    videojuegoId: number;
     titulo: string;
     anioSalida: number;
-    companiaId: number;
-    consolaId: number;
-    generoId: number;
-
-    compania?: {
-        companiaId: number;
-        nombre: string;
-    };
-    consola?: {
-        consolaId: number;
-        nombre: string;
-    };
-    genero?: {
-        generoId: number;
-        nombre: string;
-    };
-    
-    // Añadir la URL de la carátula
+    compania?: ICompania;
+    consola?: IConsola;
+    genero?: IGenero;
     caratulaUrl?: string;
-}
+    stock: number;
+    precio: number;
+  }
+  
