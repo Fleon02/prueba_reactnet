@@ -1,5 +1,7 @@
 # 🎮 Proyecto de Gestión de Videojuegos
 
+ES POSIBLE QUE NO FUNCIONE TODAVIA PORQUE FALTA SUBIR LA BBDD A UN SITIO PUBLICO
+
 Este proyecto está dividido en dos partes:
 
 - `/front`: Aplicación web en React
